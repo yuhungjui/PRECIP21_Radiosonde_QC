@@ -1,7 +1,11 @@
+---
+tags: Storm Tracker
+---
+
 # Storm Tracker System Manual (ST 使用手冊)
 
 **Last Update:**
-> [time=Apr 6, 2021]
+> [time=Jun 7, 2021]
 > [name=Hungjui Yu]
 
 ---
@@ -196,7 +200,7 @@ GPS衛星數 ≥4，越多越好。
 The data downloaded from the UI is the raw data which need translation. Use the following program (.py/.exe) to translate and merge data from one or more Ground Receiver. 
 透過操作介面下載完的資料是接收機開機之後所有的原始資料，需要透過轉檔程式翻譯。若是實驗設計有多台接收機同步實驗，轉檔程式也能合併(或各別處理)所有接收機的資料。
 
-* Program 轉檔程式(For Mac/Linux .py)：[Download 下載](https://drive.google.com/file/d/1G2gwaRw-JhfBPTNxFAumg5ZL0J-ZYnqF/view?usp=sharing)
+* Program 轉檔程式(For Mac/Linux .py; recomended)：[Download 下載](https://drive.google.com/file/d/1Oh15MUwCe_3WOEo8t76u89YvjjpH51bV/view?usp=sharing)
 * Program  轉檔軟體(For Windows .exe)：[Download 下載](https://drive.google.com/file/d/17QrFO87xct9EF5QO63hqslqRCGmM7mXf/view?usp=sharing)
 
 ### 4.2. How to translate/merge data? 轉檔/合併方式
@@ -270,7 +274,7 @@ User Password: cook1234
 然後打下列指令
 ```
 screen
-cd /Media/SD-P1/receiver/
+cd /mnt/mmcblk0p1/receiver/
 node app.js
 ```
 The following shows when the server is running. You can keep it to monitor the Ground Receiver if needed. Or type the following whenever you want to monitor,
@@ -286,11 +290,12 @@ screen -r
 *  All the data is stored in the SD card on the Ground Receiver. You can SCP those data from the Ground Receiver if needed (winscp if you are using a Windows machine).
 所有的資料都存放在接收機的SD卡當中，除了在網頁界面上下載之外，也可以用scp的方式下載回來(若使用軟體的話，推薦winscp)。
 ```
+scp -r root@192.168.100.1:/mnt/mmcblk0p1/receiver/data/ ./your_folder
+ 
 scp -r root@192.168.100.1:/Media/SD-P1/receiver/data/ ./your_folder
 ``` 
+
 
 ## 6. References 參考資料
 
 > [DBAR 大氣水文研究資料庫](https://dbar.pccu.edu.tw/)
-> [Storm Tracker 探空系統檔案](https://hackmd.io/@xjcokueQTyKvnfndH4fLWA/StormTrackerSystemFIles)
-> [Storm Tracker 探空系統周邊耗材零件廠商](https://hackmd.io/@xjcokueQTyKvnfndH4fLWA/StormTrackerSystemSupplies)
