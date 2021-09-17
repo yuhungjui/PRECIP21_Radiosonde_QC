@@ -13,7 +13,7 @@ tic;
 
 %% Load file parameters:
 
-% Station number:
+% Station/Project number:
 project_no = 'precip21'
 
 % Year:
@@ -24,9 +24,12 @@ month_no = {'01','02','03','04','05','06','07','08','09','10','11','12'};
 
 % ==============================================================================
 
-%% Find every edt files for Vaisala RS41:
+%% Find every Level 2 files for Vaisala RS41:
 
-file_name_list_edt = dir(['../L0/**/edt*']);
+L2_input_file_path     = ['../../Data/VaisalaRS41/Data/L2/',year_no{1}];
+L2_output_file_path    = ['../../Data/VaisalaRS41/Data/L2_mat/',year_no{1}];
+
+file_name_list_edt = dir([L2_input_file_path,'/*.eol']);
 a
 % ==============================================================================
 
