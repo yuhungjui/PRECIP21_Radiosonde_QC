@@ -112,16 +112,16 @@ for fi = 1:size(file_name_list_csv,1)
         
         tmp_data.P(ii,1)      = tmp_data_row(3); % hPa
         % tmp_data.Z(ii,1)      = tmp_data_row(15); % [m]
-        tmp_data.Z_GPS(ii,1)  = tmp_data_row(11); % [m]
+        tmp_data.Z_GPS(ii,1)  = tmp_data_row(10); % [m]
         tmp_data.TC(ii,1)     = tmp_data_row(4);
-        tmp_data.TD(ii,1)     = tmp_data_row(12);
+        tmp_data.TD(ii,1)     = tmp_data_row(11);
         tmp_data.RH(ii,1)     = tmp_data_row(5);
         
         % For RH w.r.t. Ice:
         tmp_data.RHI(ii,1)    = convert_humidity_TTd_RHI_yhj(tmp_data_row(4)+273.15,tmp_data_row(12)+273.15);
         
-        tmp_data.U(ii,1)      = tmp_data_row(13);
-        tmp_data.V(ii,1)      = tmp_data_row(14);
+        tmp_data.U(ii,1)      = tmp_data_row(12);
+        tmp_data.V(ii,1)      = tmp_data_row(13);
         tmp_data.WD(ii,1)     = tmp_data_row(7);
         tmp_data.WS(ii,1)     = tmp_data_row(6);
         tmp_data.LON(ii,1)    = tmp_data_row(9);
