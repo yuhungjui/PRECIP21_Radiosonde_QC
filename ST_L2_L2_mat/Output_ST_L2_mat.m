@@ -118,7 +118,7 @@ for fi = 1:size(file_name_list_csv,1)
         tmp_data.RH(ii,1)     = tmp_data_row(5);
         
         % For RH w.r.t. Ice:
-        % tmp_data.RHI(ii,1)    = convert_humidity_TTd_RHI_yhj(tmp_data_row(7)+273.15,tmp_data_row(8)+273.15);
+        tmp_data.RHI(ii,1)    = convert_humidity_TTd_RHI_yhj(tmp_data_row(4)+273.15,tmp_data_row(12)+273.15);
         
         tmp_data.U(ii,1)      = tmp_data_row(13);
         tmp_data.V(ii,1)      = tmp_data_row(14);
