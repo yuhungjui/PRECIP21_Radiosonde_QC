@@ -130,6 +130,7 @@ for di = 1:length(data_L2_list)
         nan_p = isnan(data_L2.P);
         tmp_p = data_L2.P(~nan_p) + [1:numel(data_L2.P(~nan_p))]'.*1e-7; % ADD AN SMALL MONOTONIC EPSILON TO ENSURE THE INTERPOLATION.
         
+        tmp_data.TIME_s = interp1(tmp_p,data_L2.TIME_SEC(~nan_p),tmp_data.P,'nearest');
         % tmp_data.Z      = interp1(tmp_p,data_L2.Z(~nan_p),tmp_data.P,'linear');
         tmp_data.Z_GPS  = interp1(tmp_p,data_L2.Z_GPS(~nan_p),tmp_data.P,'linear');
         tmp_data.TC     = interp1(tmp_p,data_L2.TC(~nan_p),tmp_data.P,'linear');
