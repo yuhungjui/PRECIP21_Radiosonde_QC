@@ -25,7 +25,8 @@ year_no = {'2021'};
 
 % Data info:
 
-ST_Level = 'L2';
+% ST_Level = 'L2';
+ST_Level = 'L3_TASSE';
 % ST_Level = 'L3_GC_P';
 % ST_Level = 'L3_GC_P_CDFhr_T';
 % ST_Level = 'L3_GC_P_CDFhr_T_RH';
@@ -86,7 +87,7 @@ plot_var_ST = {[],[],[],[],[],[],[]};
 test_var_st = [];
 test_var_per = [];
 
-varid = 7;
+varid = 4;
 
 ssi = 1;
 
@@ -128,7 +129,7 @@ for vari = varid % one variable.
             ssi = ssi+1;
             
             %% FILTER DATA BY PRESSURE:
-            tmp_data_ST_pid = find(tmp_data_ST.P>=10);
+            tmp_data_ST_pid = find(tmp_data_ST.P>=200);
             tmp_data_ST.TIME_SEC = tmp_data_ST.TIME_SEC(tmp_data_ST_pid);
             eval([ 'tmp_data_ST.',process_vars_name{vari},' = tmp_data_ST.',process_vars_name{vari},'(tmp_data_ST_pid);' ]);
             
