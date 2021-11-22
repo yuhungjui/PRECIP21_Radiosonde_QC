@@ -86,7 +86,7 @@ plot_var_ST = {[],[],[],[],[],[],[]};
 test_var_st = [];
 test_var_per = [];
 
-varid = 4;
+varid = 6;
 
 ssi = 1;
 
