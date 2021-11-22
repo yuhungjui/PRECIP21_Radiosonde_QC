@@ -2,7 +2,7 @@
 Transform Storm Tracker L0 data to L1 csv format file (batch mode).
 
 Hungjui Yu
-20210902
+20211121
 
 How to run:
 python ST_L0_L1_csv_batch.py path_to_ST_log_file_csv
@@ -22,10 +22,12 @@ from metpy.units import units
 ST_info_file = sys.argv[1]
 
 # Set ST L0 files path:
-ST_L0_file_path = '/Users/yuhungjui/Research/CSU_2021/PRECIP_2021/StormTracker/Data/L0'
+# ST_L0_file_path = '/Users/yuhungjui/Research/CSU_2021/PRECIP_2021/StormTracker/Data/L0'
+ST_L0_file_path = '/Users/yuhungjui/Downloads/Test/L0'
 
 # Set output path:
-output_path = '/Users/yuhungjui/Research/CSU_2021/PRECIP_2021/StormTracker/Data/L1_csv'
+# output_path = '/Users/yuhungjui/Research/CSU_2021/PRECIP_2021/StormTracker/Data/L1_csv'
+output_path = '/Users/yuhungjui/Downloads/Test/L1_csv'
 
 # Set final launch date:
 final_date = dt.datetime(2021,8,31)
@@ -132,7 +134,8 @@ def output_L1(ST_no, loaded_ST_file, L1_data, L1_csv_filename):
                         , row['Temperature(degree C)']\
                         , row['Humidity(%)']\
                         , row['WS(m/s)']\
-                        , row['Direction(degree)']\
+                        # , row['Direction(degree)']\
+                        , row['WDIR']\
                         , row['Lat']\
                         , row['Lon']\
                         , row['Sat']\

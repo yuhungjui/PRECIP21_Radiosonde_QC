@@ -24,9 +24,9 @@ plot_level = 'L4u_1hPa';
 
 year_no = '2021';
 
-date_1 = datetime(str2double(year_no),5,1,0,0,0,'TimeZone','Asia/Taipei');
+date_1 = datetime(str2double(year_no),5,1,0,0,0,'TimeZone','UTC');
 
-date_2 = datetime(str2double(year_no),8,31,23,0,0,'TimeZone','Asia/Taipei');
+date_2 = datetime(str2double(year_no),8,31,23,0,0,'TimeZone','UTC');
 
 date_int = 1; % hr
 
@@ -46,7 +46,7 @@ date_range = 1:numel(date_dur);
 %                    , [61,65,70,75,80,85].*24+1 ...
 %                    , [92,96,101,106,111,116].*24+1 ...
 %                    ];
-date_to_label_id = [ 1:5*24:date_range(end) ];
+date_to_label_id = [ 1:7*24:date_range(end) ];
 
 date_xtick_lab = datestr(date_dur,'mm.dd');
 
@@ -69,10 +69,16 @@ gf1.WindowState = 'maximized';
 
 si = 1;
 
-file_path = ['../../Data/VaisalaRS41/Data/L4u_1hPa_mat/',year_no,'/'];
-    
+file_path_RS = ['../../Data/VaisalaRS41/Data/L4u_1hPa_mat/',year_no,'/'];
+file_path_ST = ['../../Data/StormTracker/Data/L4u_1hPa_mat/',year_no,'/'];
+
 % file_dir = dir([file_path,'**/*.mat']);
-file_dir = dir([file_path,'*.mat']);
+file_dir_RS = dir([file_path_RS,'*.mat']);
+file_dir_ST = dir([file_path_ST,'*.mat']);
+
+file_dir = file_dir_RS;
+
+pdi = 1;
 
 for sti = 1:numel(file_dir)
     
@@ -93,14 +99,18 @@ for sti = 1:numel(file_dir)
         f11{sti} = plot(repmat(plot_val_x,[numel(data_sonde.P),1]),data_sonde.P,'LineStyle','none');
         
         f11{sti}.Marker = '.';
-        f11{sti}.MarkerSize = 2;
-        f11{sti}.Color = [0,0,1];
+        f11{sti}.MarkerSize = 1.2;
+        f11{sti}.Color = [1,0,0];
         % f11{sti}.MarkerFaceColor = 'r';
         % f11{sti}.MarkerEdgeColor = 'r';
         
         hold on
-    
+        
     end
+    
+    data_min_P(pdi) = min(data_sonde.P);
+    
+    pdi = pdi+1;
     
     clear data_sonde
     clear plot_val_x
@@ -111,7 +121,7 @@ end
 
 %% 1. Set axes: Axis 1:
 
-axfont = 24;
+axfont = 16;
 
 ax11 = gca;
 
@@ -126,14 +136,15 @@ set(ax11,'XMinorTick','on','XMinorGrid','off')
 set(ax11,'XTickLabelRotation',45)
 set(ax11,'Ylim',[50,900])
 set(ax11,'YScale','log')
-set(ax11,'YTick',[50,100,150,300:100:1000])
-set(ax11,'YTickLabel',{'100';'150';'200';'300';'';'';'600';'';'';'900';''})
+set(ax11,'YTick',[50,100,150,300:100:900])
+set(ax11,'YTickLabel',{'50';'100';'150';'300';'';'';'600';'';'';'900'})
 set(ax11,'YMinorTick','off')
 set(ax11,'YDir','Reverse')
 
 %% 1. Labels:
-xlab = xlabel(['\bf{',year_no,' Date (UTC)}'],'FontSize',36);
-ylab = ylabel([site_name{si},'\newline','    \bf{P (hPa)}'],'FontSize',36);
+xlab = xlabel(['\bf{',year_no,' Date}'],'FontSize',18);
+% ylab = ylabel([site_name{si},'\newline','    \bf{P (hPa)}'],'FontSize',18);
+ylab = ylabel(['\bf{P(hPa)}'],'FontSize',18);
 
 %% 1. Set axes: Axis 3:
 ax13 = axes('Position',get(ax11,'Position'),'Box','on','Color','none','XTick',[],'YTick',[]);
