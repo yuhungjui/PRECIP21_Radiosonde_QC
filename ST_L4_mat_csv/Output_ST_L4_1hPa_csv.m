@@ -26,7 +26,7 @@ month_no = {'01','02','03','04','05','06','07','08','09','10','11','12'};
 
 %% Load files and output:
 
-log_fileID = fopen('./log.txt','w');
+% log_fileID = fopen('./log.txt','w');
 
 %% File path:
 L4_mat_input_file_path     = ['../L4u_1hPa_mat/',year_no{1},'/'];
@@ -93,8 +93,7 @@ for di = 1:length(data_L4_list)
     
 end
 
-
-fclose(log_fileID);
+% fclose(log_fileID);
 
 % ==============================================================================
 
