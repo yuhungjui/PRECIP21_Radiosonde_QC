@@ -6,46 +6,33 @@ tic;
 
 % ==============================================================================
 % 
-% Taylor Diagram for Intercomparison between 46692 Storm Tracker vs. Radiosonde 
-% during TASSE 2018-2019.
-% 
-% Source Datasets: Vaisala RS41-SGP:   L2
-%                  Storm Tracker:      L2, L3
-% 
-% Comparison is between Level 2 / Level 3 data for P, T, RH.
+% Taylor Diagram for T & RH Intercomparison between Vaisala RS41-SGP radiosonde 
+% and the co-launched Storm Tracker.
 % 
 % ==============================================================================
 
 %% Load Data Info:
 
 % Station number:
-station_no = '46692';
+% station_no = '46692';
+project_no = 'precip21'
 
 % Year:
-year_no = {'2018','2019','2020'};
+year_no = {'2021'};
 
 % Data info:
 
-% ST_Level = 'L2';
-% ST_Level = 'L3_GC_P';
-% ST_Level = 'L3_GC_P_CDFhr_T';
-% ST_Level = 'L3_GC_P_CDFhr_T_RH';
-ST_Level = 'L3_GC_P_CDFhr_T_RH_P1LDC_RH';
+ST_Level = 'L2';
+ST_Level = 'L3_TASSE';
 
 % Data info:
-ST_data_info_2018 = readtable('../../../../../Data/DATA_TASSE/TASSE2018_StormTracker_QC_AspenV344/46692_StormTracker_log_info.xlsx');
-ST_data_info_2019 = readtable('../../../../../Data/DATA_TASSE/TASSE2019_StormTracker_QC_AspenV344/Banqiao_ST_log_info_wVaisala.xlsx');
-ST_data_info_2020 = readtable('../../../../../Data/DATA_TASSE/TAWSE2020_StormTracker_QC_AspenV344/Banqiao_ST_log_info_wVaisala.xlsx');
+ST_data_info_2021 = readtable('../../../Data/StormTracker/Log/log_online.xlsx');
 
 % Data path (Storm Tracker):
-data_path_ST_2018 = ['../../../../../Data/DATA_TASSE/TASSE2018_StormTracker_QC_AspenV344/',ST_Level,'_mat/2018/'];
-data_path_ST_2019 = ['../../../../../Data/DATA_TASSE/TASSE2019_StormTracker_QC_AspenV344/',ST_Level,'_mat/2019/'];
-data_path_ST_2020 = ['../../../../../Data/DATA_TASSE/TAWSE2020_StormTracker_QC_AspenV344/',ST_Level,'_mat/2020/'];
+data_path_ST_2021 = ['../../../Data/StormTracker/Data/',ST_Level,'_mat/2021/'];
 
 % Data path (Vaisala Radiosonde):
-data_path_RS_2018 = ['../../../../../Data/DATA_TASSE/Sounding_46692/L2_mat/2018/'];
-data_path_RS_2019 = ['../../../../../Data/DATA_TASSE/Sounding_46692/L2_mat/2019/'];
-data_path_RS_2020 = ['../../../../../Data/DATA_TASSE/Sounding_46692/L2_mat/2020/'];
+data_path_RS_2021 = ['../../../Data/VaisalaRS41/Data/L2_mat/2021/'];
 
 % ==============================================================================
 
@@ -57,17 +44,17 @@ process_vars_name = {'P';'Z';'TC';'RH';'U';'V';'WS'};
 
 process_vars_unit = {'hPa';'km';'^\circC';'%';'m/s';'m/s';'m/s'};
 
-process_vars_range   = {[290,1025]; ...
+process_vars_range   = {[0,900]; ...
                         [-0.1,15]; ...
-                        [-65,45]; ...
+                        [-85,45]; ...
                         [-0.2,100.2]; ...
                         [-22,22]; ...
                         [-22,22]; ...
                         [-0.1,26] ...
                         };
-process_vars_tick    = {[100:200:1e3]; ...
+process_vars_tick    = {[0:150:900]; ...
                         [0:2:14]; ...
-                        [-60:20:40]; ...
+                        [-80:20:40]; ...
                         [0:20:100]; ...
                         [-20:5:20]; ...
                         [-20:5:20]; ...
@@ -93,13 +80,13 @@ plot_var_ST = {[],[],[],[],[],[],[]};
 test_var_st = [];
 test_var_per = [];
 
-varid = 4;
+varid = 3;
 
 ssi = 1;
 
 for vari = varid % one variable.
     
-    for yeari = 1:3 
+    for yeari = 1
         
         eval([ 'ST_data_info = ST_data_info_',year_no{yeari},';' ]);
         eval([ 'data_path_ST = data_path_ST_',year_no{yeari},';' ]);
@@ -109,38 +96,32 @@ for vari = varid % one variable.
         
         for di = 1:size(ST_data_info,1)
             
-            if ( ST_data_info.L1_flag(di) == 1 )
+            if ( ST_data_info.Co_launch_flag(di) == 1 )
             % if ( ST_data_info.L1_flag(di) == 1 && ismember(ST_data_info.UTC(di),[22,23,0:9]) )
                 
                 %% Get datetime:
-                
-                switch year_no{yeari}
-                    case '2018'
-                        tmp_date = num2str(ST_data_info.DATE(di));
-                    otherwise
-                        tmp_date = num2str(ST_data_info.DATE_UTC(di));
-                end
-                ST_nominalT = datetime( str2double(tmp_date(1:4)), str2double(tmp_date(5:6)), str2double(tmp_date(7:8)), ST_data_info.UTC(di), 0, 0, 'TimeZone', 'UTC' );
-                
+            
+                tmp_date = num2str(ST_data_info.Date(di));
+                ST_nominalT = datetime( str2double(tmp_date(1:4)), str2double(tmp_date(5:6)), str2double(tmp_date(7:8)), ST_data_info.Nominal_T(di), 0, 0, 'TimeZone', 'UTC' );
+
                 %% Get Storm Tracker #:
-                
-                ST_no = ST_data_info.StormTracker_no(di);
+
+                ST_no = ST_data_info.ST_No(di);
                 
                 %% Load Storm Tracker data & corresponding L2 Radiosonde data:
                 
-                tmp_data_ST = importdata([data_path_ST,datestr(ST_nominalT,'mm'),'/46692_',datestr(ST_nominalT,'yyyymmddHH'),'_',num2str(ST_no),'.mat']);
-                tmp_data_RS = importdata([data_path_RS,datestr(ST_nominalT,'mm'),'/46692_',datestr(ST_nominalT,'yyyymmddHH'),'.mat']);
-                
+                tmp_data_ST = importdata([data_path_ST,project_no,'_',datestr(ST_nominalT,'yyyymmddHH'),'_',num2str(ST_no),'.mat']);
+                tmp_data_RS = importdata([data_path_RS,project_no,'_',datestr(ST_nominalT,'yyyymmddHH'),'.mat']);
+
                 test_size_ST(ssi) = length(tmp_data_ST.P);
                 test_size_RS(ssi) = length(tmp_data_RS.P);
                 ssi = ssi+1;
                 
                 %% FILTER DATA BY PRESSURE:
-                % tmp_data_ST_pid = find(tmp_data_ST.P>=800);
-                tmp_data_ST_pid = find(tmp_data_ST.P>=300 & tmp_data_ST.P<500);
+                tmp_data_ST_pid = find(tmp_data_ST.P>=200);
                 tmp_data_ST.TIME_SEC = tmp_data_ST.TIME_SEC(tmp_data_ST_pid);
                 eval([ 'tmp_data_ST.',process_vars_name{vari},' = tmp_data_ST.',process_vars_name{vari},'(tmp_data_ST_pid);' ]);
-                
+
                 %% Find the same date & time:
                 
                 tmp_ST_sec = floor(tmp_data_ST.TIME_SEC);
@@ -483,7 +464,7 @@ end
 %     set(leg1,'LineWidth',ax_linewidth)
 %     
 % end
-a
+
 % ==============================================================================
     
 %% Save Figure:
