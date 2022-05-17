@@ -1,0 +1,25 @@
+Notes for plotting skew-Ts:
+
+The procedure here is pretty simple:
+
+1) Open the R GUI from the desktop (double click the big "R")
+
+2) Run:
+  skewt.csu()
+
+(or even easier, this should be the last thing that was run, so click the "up" arrow once or twice.)
+
+3) This will create a .png image in the E:\png_images folder
+
+
+The Vaisala software will write the needed file out at 1, 2, 5, and then every subsequent 5 minutes after launch, so you can just repeat step #2 to get an updated skew-T as the balloon is rising.
+
+Make sure to run this one last time once you've terminated the sounding to get the complete profile.
+
+When you quit R, it doesn't really matter if you save the workspace or not (either selection is fine.)
+
+If you run into problems, let Russ know -- we haven't fully tested this on the replacement system yet.
+
+
+
+I tried getting the software to write out a file that can be read by SHARPpy too, but this isn't quite working yet.
